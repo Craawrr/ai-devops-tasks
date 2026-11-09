@@ -1,0 +1,109 @@
+
+jenkins:
+  systemMessage: "Jenkins skonfigurowany automatycznie przez JCasC"
+  numExecutors: 2
+  mode: NORMAL
+  scmCheckoutRetryCount: 2
+  quietPeriod: 5
+
+  authorizationStrategy:
+    loggedInUsersCanDoAnything:
+      allowAnonymousRead: false
+
+  securityRealm:
+    local:
+      allowsSignup: false
+      users:
+        - id: "${JENKINS_ADMIN_ID}"
+          password: "${JENKINS_ADMIN_PASSWORD}"
+
+unclassified:
+  location:
+    url: "http://localhost:8080/"
+
+tool:
+  maven:
+    installations:
+      - name: "Maven 3.9.9"
+        properties:
+          - installSource:
+              installers:
+                - maven:
+                    id: "3.9.9"
+
+  nodejs:
+    installations:
+      - name: "NodeJS 22"
+        properties:
+          - installSource:
+              installers:
+                - nodeJSInstaller:
+                    id: "22.11.0"
+                    npmPackagesRefreshHours: 72
+
+  dockerTool:
+    installations:
+      - name: "Docker"
+        properties:
+          - installSource:
+              installers:
+                - fromDocker:
+                    version: "latest"
+
+jobs:
+  - script: |
+      pipelineJob('example-pipeline') {
+        description('Przykladowe zadanie Pipeline utworzone przez JCasC')
+
+        definition {
+          cps {
+            script('''
+              pipeline {
+                agent any
+
+                options {
+                  timeout(time: 30, unit: 'MINUTES')
+                  timestamps()
+                }
+
+                stages {
+                  stage('Checkout') {
+                    steps {
+                      echo 'Pobieranie kodu z repozytorium'
+                    }
+                  }
+
+                  stage('Build') {
+                    steps {
+                      echo 'Budowanie aplikacji'
+                    }
+                  }
+
+                  stage('Test') {
+                    steps {
+                      echo 'Uruchamianie testow'
+                    }
+                  }
+
+                  stage('Deploy') {
+                    steps {
+                      echo 'Przykladowe wdrozenie aplikacji'
+                    }
+                  }
+                }
+
+                post {
+                  success {
+                    echo 'Pipeline zakonczony sukcesem!'
+                  }
+                  failure {
+                    echo 'Pipeline zakonczony bledem!'
+                  }
+                }
+              }
+            ''')
+
+            sandbox()
+          }
+        }
+      }
