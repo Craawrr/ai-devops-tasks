@@ -27,3 +27,5 @@ Oto 5 najważniejszych korzyści z używania kontenerów Docker w środowisku pr
 5. Automatyzacja i skalowalność – Docker ułatwia automatyzację testowania, budowania i wdrażania aplikacji oraz pozwala szybko uruchamiać kolejne instancje kontenerów w zależności od potrzeb.
 
 Podsumowanie: Docker zwiększa wygodę pracy programistów, poprawia spójność środowisk i przyspiesza proces tworzenia, testowania oraz wdrażania aplikacji.
+
+Wnioski: Bardzo podobne odpowiedzi, chat dodatkowo podsumował.
